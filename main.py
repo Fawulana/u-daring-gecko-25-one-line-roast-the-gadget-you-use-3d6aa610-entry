@@ -1,29 +1,25 @@
 #!/usr/bin/env python3
 """One-Line Roast: The Gadget You Use Every Day.
 
-Writes a single original roast line (<= 200 chars) to /output/entry.txt.
-Deterministic, offline, stdlib-only.
+Writes a single original roast line to /output/entry.txt.
+Gate: UTF-8 text, 1-200 characters, not only whitespace.
 """
 
 import os
 
-LINE = (
-    # Chosen from 5 brainstormed candidates: the robot-vacuum angle is the
-    # freshest (no battery/update/rating cliche), with a concrete daily
-    # detail (same chair, every day) and a two-beat punchline.
-    "My robot vacuum has a perfect map of my flat and still gets stuck "
-    "under the same chair every single day - it memorized the floor plan "
-    "and learned nothing."
-)
-
-OUT_PATH = "/output/entry.txt"
+# Fresh roast, authored in this session: noise-cancelling earbuds that
+# silence the world but not the "just one more video" voice in your head.
+LINE = "My noise-cancelling earbuds are so good, the only voice they can't silence is the one whispering 'just one more video.'"
 
 
 def main() -> None:
     text = LINE.strip()
-    assert 1 <= len(text) <= 200, "line must be 1-200 characters"
-    os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
-    with open(OUT_PATH, "w", encoding="utf-8", newline="\n") as f:
+    assert text, "entry must not be empty"
+    assert not text.isspace(), "entry must not be only whitespace"
+    assert 1 <= len(text) <= 200, f"entry must be 1-200 chars, got {len(text)}"
+    text.encode("utf-8")  # must be valid UTF-8
+    os.makedirs("/output", exist_ok=True)
+    with open("/output/entry.txt", "w", encoding="utf-8") as f:
         f.write(text + "\n")
 
 
